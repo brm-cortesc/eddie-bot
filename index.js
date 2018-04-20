@@ -70,7 +70,7 @@ web.channels.list()
 
     // console.log(res)
 
-    arr.push(res)
+    arr.push(members)
 
     if (channel) {
       // We now have a channel ID to post a message in!
