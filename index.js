@@ -66,7 +66,7 @@ web.channels.list()
     // Take any channel for which the bot is a member
     const channel = res.channels.find(c => c.is_member);
 
-    const members = res.channels.find(id => id.conversationId );
+    const members = res.channels.find(id => id == conversationId );
 
     // console.log(res)
 
