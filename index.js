@@ -87,7 +87,7 @@ app.get('/', (req, res, next)=>{
 
 });
 
-app.listen(3000)
+app.listen(process.env.PORT || 3000)
 
 console.log('servidor en http://localhost:'+ 3000)
 
