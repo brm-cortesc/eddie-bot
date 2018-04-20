@@ -87,6 +87,12 @@ web.channels.list()
 
 app.get('/', (req, res, next)=>{
 
+	let users = [];
+	for( let i=0; i <arr.members.length; i++  ){
+
+		users.push(arr.members[i])
+	}
+
 	res.send(arr);
 
 });
