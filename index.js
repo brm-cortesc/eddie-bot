@@ -11,29 +11,29 @@ const connection = mysql.createConnection({
 
 //:::::::::MYSQl::::::::://
 
-connection.connect( (err)=>{
-	if(!err){
-		console.log('conectado')
-	}else{
-		console.error('error al conectar')
-	}
+// connection.connect( (err)=>{
+// 	if(!err){
+// 		console.log('conectado')
+// 	}else{
+// 		console.error('error al conectar')
+// 	}
 
-});
+// });
 
-app.get('/', (req,res)=>{
-	connection.query('SELECT * from information_schema.tables', (err,rows, fields)=>{
-		connection.end();
+// app.get('/', (req,res)=>{
+// 	connection.query('SELECT * from information_schema.tables', (err,rows, fields)=>{
+// 		connection.end();
 
-		if(!err){
-			console.log(rows)
-		}else{
-			console.error('no se puede hacer el la consulta')
-		}
+// 		if(!err){
+// 			console.log(rows)
+// 		}else{
+// 			console.error('no se puede hacer el la consulta')
+// 		}
 
 
-	});
+// 	});
 
-});
+// });
 
 app.listen(3000)
 
