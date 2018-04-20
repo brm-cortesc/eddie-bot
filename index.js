@@ -2,13 +2,14 @@ const express = require('express'),
 			app = express(),
 			mysql = require('mysql'),
 			connection = require('express-myconnection');
+			router = express.Router();
 
 
 const db = {
 	host: process.env.HOST,
 	user: process.env.USER,
 	password: process.env.PASS, 
-	database: process.env.DB 
+	database: process.env.DB
 };
 
 const { RTMClient, WebClient } = require('@slack/client');
@@ -17,36 +18,6 @@ const token = process.env.TOKEN;
 
 // The client is initialized and then started to get an active connection to the platform
 const rtm = new RTMClient(token);
-
-
-//:::::::::MYSQl::::::::://
-
-// connection.connect( (err)=>{
-// 	if(!err){
-// 		console.log('conectado')
-// 	}else{
-// 		console.error('error al conectar')
-// 	}
-
-// });
-
-// app.get('/', (req,res)=>{
-// 	connection.query('SELECT * from information_schema.tables', (err,rows, fields)=>{
-// 		connection.end();
-
-// 		if(!err){
-// 			console.log(rows)
-// 		}else{
-// 			console.error('no se puede hacer el la consulta')
-// 		}
-
-
-// 	});
-
-// });
-
-
-
 
 //:::::::::SLACK CLIENT::::::::://
 
@@ -85,40 +56,38 @@ web.channels.list()
     }
 });
 
-app.get('/', (req, res, next)=>{
+const cx = connection(mysql, db, 'request');
 
-	let users = [];
-	for( let i=0; i <arr.members.length; i++  ){
+router
+	.use(cx)
+	.get('/', (req, res, next)=>{
+			res.send(arr.members);
 
-		users.push(arr.members[i])
-	}
+	})
+	.get('/query', (req,res, next)=>{
 
-	res.send(arr);
+		req.getConnection( (err,cx) =>{
+			cx.query('SELECT * from information_schema.tables', (err,rows, fields)=>{
+				// connection.end();
 
-});
+				if(!err){
+					console.log('consultado')
+					console.log(rows)
 
-let cx = connection(mysql, db, 'request');
+					res.send(rows);
 
-app.use(cx)
-app.get('/query', (req,res, next)=>{
-	req.getConnection( (err,cx) =>{
-		cx.query('SELECT * from information_schema.tables', (err,rows, fields)=>{
-			// connection.end();
-
-			if(!err){
-				console.log(rows)
-
-				res.send(rows);
-
-			}else{
-				console.error('no se puede hacer el la consulta')
-			}
+				}else{
+					console.error('no se puede hacer el la consulta');
+					res.send(err)
+				}
 
 
+			});
 		});
+
 	});
 
-});
+app.use(router)
 
 
 app.listen(process.env.PORT || 3000)
