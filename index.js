@@ -1,12 +1,46 @@
 const express = require('express');
+const app = express();
 const mysql = require('mysql');
 const connection = mysql.createConnection({
 	host: process.env.HOST,
 	user: process.env.USER,
-	password: process.env.PASS,
-	database: process.env.DB
+	password: process.env.PASS, 
+	database: process.env.DB 
 })
 
+
+//:::::::::MYSQl::::::::://
+
+connection.connect( (err)=>{
+	if(!err){
+		console.log('conectado')
+	}else{
+		console.error('error al conectar')
+	}
+
+});
+
+app.get('/', (req,res)=>{
+	connection.query('SELECT * from information_schema.tables', (err,rows, fields)=>{
+		connection.end();
+
+		if(!err){
+			console.log(rows)
+		}else{
+			console.error('no se puede hacer el la consulta')
+		}
+
+
+	});
+
+});
+
+app.listen(3000)
+
+
+
+
+//:::::::::SLACK CLIENT::::::::://
 
 const { RTMClient, WebClient } = require('@slack/client');
 
