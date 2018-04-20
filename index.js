@@ -1,8 +1,18 @@
+const express = require('express');
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+	host: process.env.HOST,
+	user: process.env.USER,
+	password: process.env.PASS,
+	database: process.env.DB
+})
+
+
 const { RTMClient, WebClient } = require('@slack/client');
 
 
 // An access token (from your Slack app or custom integration - usually xoxb)
-const token = process.env.TOKEN;
+const token = process.env.TOKEN; 
 
 // The client is initialized and then started to get an active connection to the platform
 const rtm = new RTMClient(token);
