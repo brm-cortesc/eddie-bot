@@ -1,12 +1,15 @@
-const express = require('express');
-const app = express();
-const mysql = require('mysql');
-const connection = mysql.createConnection({
+const express = require('express'),
+			app = express(),
+			mysql = require('mysql'),
+			connection = require('express-myconnection');
+
+
+const db = {
 	host: process.env.HOST,
 	user: process.env.USER,
 	password: process.env.PASS, 
 	database: process.env.DB 
-});
+};
 
 const { RTMClient, WebClient } = require('@slack/client');
 
@@ -42,8 +45,6 @@ const rtm = new RTMClient(token);
 
 // });
 
-// app.listen(3000)
-
 
 
 
@@ -64,13 +65,13 @@ web.channels.list()
   .then((res) => {
   	// console.log('entre')
     // Take any channel for which the bot is a member
-    const channel = res.channels.find(c => c.is_member);
+    // const channel = res.channels.find(c => c.is_member);
 
-    const members = res.channels.find((m) => m.id == conversationId );
+    const channel = res.channels.find((m) => m.id == conversationId );
 
     // console.log(res)
 
-    arr.push(members)
+    arr.push(channel)
 
     if (channel) {
       // We now have a channel ID to post a message in!
@@ -90,6 +91,28 @@ app.get('/', (req, res, next)=>{
 
 });
 
+let cx = connection(mysql, db, 'request');
+
+app.use(cx)
+app.get('/query', (req,res, next)=>{
+	req.getConnection( (err,cx) =>{
+		cx.query('SELECT * from information_schema.tables', (err,rows, fields)=>{
+			// connection.end();
+
+			if(!err){
+				// console.log(rows)
+
+				res.send(rows);
+
+			}else{
+				console.error('no se puede hacer el la consulta')
+			}
+
+
+		});
+	});
+
+});
 
 
 app.listen(process.env.PORT || 3000)
