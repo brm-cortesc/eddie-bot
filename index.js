@@ -1,7 +1,8 @@
 const { RTMClient, WebClient } = require('@slack/client');
 
+
 // An access token (from your Slack app or custom integration - usually xoxb)
-const token = 'xoxb-350711580389-GRi3ULUMGkqdiDeM5hULUg7B';
+// const token = 'xoxb-350711580389-GRi3ULUMGkqdiDeM5hULUg7B';
 
 // The client is initialized and then started to get an active connection to the platform
 const rtm = new RTMClient(token);
@@ -15,8 +16,6 @@ rtm.start();
 // Need a web client to find a channel where the app can post a message
 const web = new WebClient(token);
 
-// console.log(web.channels.list())
-// Load the current channels list asynchrously
 web.channels.list()
   .then((res) => {
   	// console.log('entre')
@@ -37,10 +36,3 @@ web.channels.list()
     }
 });
 
-// The RTM client can send simple string messages
-// rtm.sendMessage('Hello there', conversationId)
-//   .then((res) => {
-//     // `res` contains information about the posted message
-//     console.log('Message sent: ', res.ts);
-//   })
-//   .catch(console.error);
