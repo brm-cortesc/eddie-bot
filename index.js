@@ -106,7 +106,7 @@ app.get('/query', (req,res, next)=>{
 			// connection.end();
 
 			if(!err){
-				// console.log(rows)
+				console.log(rows)
 
 				res.send(rows);
 
