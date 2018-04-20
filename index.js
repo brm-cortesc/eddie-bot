@@ -51,7 +51,8 @@ const rtm = new RTMClient(token);
 
 // This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
 // See the "Combining with the WebClient" topic below for an example of how to get this ID
-// const conversationId = 'C1232456';
+const conversationId = 'CABLRMAPR';
+
 rtm.start();
 
 // Need a web client to find a channel where the app can post a message
@@ -64,6 +65,8 @@ web.channels.list()
   	// console.log('entre')
     // Take any channel for which the bot is a member
     const channel = res.channels.find(c => c.is_member);
+
+    const members = res.channels.find(id => id.conversationId );
 
     // console.log(res)
 
@@ -86,6 +89,8 @@ app.get('/', (req, res, next)=>{
 	res.send(arr);
 
 });
+
+
 
 app.listen(process.env.PORT || 3000)
 
