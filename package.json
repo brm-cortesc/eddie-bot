@@ -1,0 +1,18 @@
+{
+  "name": "slack-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cristian Cortés <cristian.cortes@brm.com.co>",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.17.3"
+  },
+  "dependencies": {
+    "@slack/client": "^4.1.0"
+  }
+}
